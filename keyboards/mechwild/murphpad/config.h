@@ -17,15 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-
-/* Key matrix pins */
-#define MATRIX_ROW_PINS { F5, B2, B3, B1, F7, F6 }
-#define MATRIX_COL_PINS { B5, D7, C6, D4, B6 }
-
+<<<<<<< HEAD
+/* Encoder resolution */
+#define ENCODER_RESOLUTIONS { 10, 4 }
+=======
+>>>>>>> a5e7390419a23c6db9cb62810f8ff1645d20b6a3
 #define TAP_CODE_DELAY 10
-
-/* COL2ROW, ROW2COL */
-#define DIODE_DIRECTION COL2ROW
 
 #define OLED_FONT_H "keyboards/mechwild/murphpad/lib/murphpadfont.c"
 

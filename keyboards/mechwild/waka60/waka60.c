@@ -16,18 +16,40 @@
 
 #include "waka60.h"
 
+void board_init(void) {
+    // B9 is configured as I2C1_SDA in the board file; that function must be
+    // disabled before using B7 as I2C1_SDA.
+    setPinInputHigh(B9);
+}
+
+
 #ifdef ENCODER_ENABLE
+
+bool is_alt_tab_active = false;
+uint16_t alt_tab_timer = 0;
+
 bool encoder_update_kb(uint8_t index, bool clockwise) {
-    if (!encoder_update_user(index, clockwise)) { return false; }
-    switch (index) {
-        case 0:
-            if (clockwise) {
-                tap_code(KC_VOLU);
-            } else {
-                tap_code(KC_VOLD);
-            }
-        break;
+    if (!is_alt_tab_active) {
+        is_alt_tab_active = true;
+        register_code(KC_LALT);
     }
+    if (clockwise) {
+        alt_tab_timer = timer_read();
+        tap_code16(KC_TAB);
+    } else {
+        alt_tab_timer = timer_read();
+        tap_code16(S(KC_TAB));
+    }
+
     return true;
+}
+
+void matrix_scan_user(void) {
+    if (is_alt_tab_active) {
+        if (timer_elapsed(alt_tab_timer) > 1250) {
+            unregister_code(KC_LALT);
+            is_alt_tab_active = false;
+        }
+    }
 }
 #endif

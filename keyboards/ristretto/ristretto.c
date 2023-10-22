@@ -18,13 +18,17 @@
 
 enum layers {
 	_BASE,
-	_RAISE,
-	_LOWER,
+	_NUM,
+	_MIA,
 	_ADJUST
 };
 
+bool is_alt_tab_active = false;
+uint16_t alt_tab_timer = 0;
+
 bool encoder_update_kb(uint8_t index, bool clockwise) {
-    if (!encoder_update_user(index, clockwise)) { return false; }
+
+    /*if (!encoder_update_user(index, clockwise)) { return false; }
 	if(index == 0) {
 		if (clockwise) {
 			tap_code(KC_VOLD);
@@ -32,36 +36,77 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
 			tap_code(KC_VOLU);
 			}
 		}
-	return true;
-}
-
-#ifdef OLED_ENABLE
-oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
-    return OLED_ROTATION_270;
-}
-
-bool oled_task_kb(void) {
-    if (!oled_task_user()) {
-        return false;
+        */
+    if (!is_alt_tab_active) {
+        is_alt_tab_active = true;
+        register_code(KC_LALT);
     }
-	oled_write_P(PSTR("\n\n"), false);
-	oled_write_ln_P(PSTR("LAYER"), false);
-	oled_write_ln_P(PSTR(""), false);
-	switch (get_highest_layer(layer_state)) {
-		case _BASE:
-			oled_write_P(PSTR("BASE\n"), false);
-			break;
-		case _RAISE:
-			oled_write_P(PSTR("RAISE\n"), false);
-			break;
-		case _LOWER:
-			oled_write_P(PSTR("LOWER\n"), false);
-			break;
-		case _ADJUST:
-			oled_write_P(PSTR("ADJ\n"), false);
-			break;
-	}
-    return false;
+    if (!clockwise) {
+        alt_tab_timer = timer_read();
+        tap_code16(KC_TAB);
+    } else {
+        alt_tab_timer = timer_read();
+        tap_code16(S(KC_TAB));
+    }
+    return true;
 }
+
+void matrix_scan_user(void) {
+  if (is_alt_tab_active) {
+    if (timer_elapsed(alt_tab_timer) > 1250) {
+      unregister_code(KC_LALT);
+      is_alt_tab_active = false;
+    }
+  }
+}
+
+#ifdef OLED_DRIVER_ENABLE
+const char *wpm_state(void);
+void set_keylog(uint16_t keycode, keyrecord_t *recod);
+const char *read_keylog(void);
+const char *read_keylogs(void);
+
+// oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+// 	return OLED_ROTATION_270;
+// }
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (record->event.pressed) {
+#ifdef OLED_DRIVER_ENABLE
+    set_keylog(keycode, record);
+#endif
+    // set_timelog();
+  }
+  return true;
+}
+
+void oled_task_user(void) {
+    led_t led_state = host_keyboard_led_state();
+    oled_write_ln_P(led_state.caps_lock ? PSTR("CAPS") : PSTR("    "), false);
+    oled_write_ln(wpm_state(), false);
+    oled_write_ln(" ", false);
+    oled_write_ln(read_keylogs(), false);
+}
+// __attribute__((weak)) void oled_task_user(void) {
+// 	oled_write_P(PSTR("\n\n"), false);
+// 	switch (get_highest_layer(layer_state)) {
+// 		case _BASE:
+// 			oled_write_P(PSTR("BASE\n"), false);
+// 			break;
+// 		case _NUM:
+// 			oled_write_P(PSTR("NUM\n"), false);
+// 			break;
+// 		case _MIA:
+// 			oled_write_P(PSTR("MIA\n"), false);
+// 			break;
+// 		case _ADJUST:
+// 			oled_write_P(PSTR("ADJ\n"), false);
+// 			break;
+// 	}
+//     oled_write_ln_P(PSTR(""), false);
+//     // Host Keyboard LED Status
+//     led_t led_state = host_keyboard_led_state();
+//     oled_write_ln_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
+// }
 
 #endif

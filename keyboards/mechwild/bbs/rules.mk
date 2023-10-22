@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+# MCU name
+MCU = STM32F401
+
+# Bootloader selection
+BOOTLOADER = stm32-dfu
+
+=======
+>>>>>>> a5e7390419a23c6db9cb62810f8ff1645d20b6a3
 # Build Options
 #   change yes to no to disable
 #
@@ -9,6 +18,11 @@ COMMAND_ENABLE = no         # Commands for debug and configuration
 BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
 AUDIO_ENABLE = no           # Audio output
+<<<<<<< HEAD
+ENCODER_ENABLE = no         # Encoder Enabled
+OLED_ENABLE = no            # OLED Enabled
+=======
+>>>>>>> a5e7390419a23c6db9cb62810f8ff1645d20b6a3
 DIP_SWITCH_ENABLE = yes     # Dip Switch Enabled
 
 # Necessary for stenography functionality

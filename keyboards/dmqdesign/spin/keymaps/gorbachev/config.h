@@ -16,6 +16,9 @@
 
 #pragma once
 
+<<<<<<< HEAD
+#define RGBLIGHT_ANIMATIONS
+=======
 #define RGBLIGHT_EFFECT_BREATHING
 #define RGBLIGHT_EFFECT_RAINBOW_MOOD
 #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
@@ -26,9 +29,10 @@
 #define RGBLIGHT_EFFECT_RGB_TEST
 #define RGBLIGHT_EFFECT_ALTERNATING
 #define RGBLIGHT_EFFECT_TWINKLE
+>>>>>>> a5e7390419a23c6db9cb62810f8ff1645d20b6a3
 #define RGBLIGHT_HUE_STEP 8
 
 // Use one or the other, determines the orientation of
 // the OLED display
-// #define RIGHT_HAND
-#define LEFT_HAND
+#define RIGHT_HAND
+//#define LEFT_HAND

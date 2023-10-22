@@ -9,6 +9,7 @@ COMMAND_ENABLE = no         # Commands for debug and configuration
 NKRO_ENABLE = no            # Enable N-Key Rollover
 BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 ENCODER_ENABLE = yes		# Enable Rotary Encoder
+KEY_LOCK_ENABLE = yes		# Enable Key Lock
 
 # additional features for ELITE-C
 RGBLIGHT_ENABLE = no       # Enable keyboard RGB underglow

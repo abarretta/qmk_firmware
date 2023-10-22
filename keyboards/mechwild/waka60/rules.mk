@@ -9,7 +9,9 @@ COMMAND_ENABLE = no         # Commands for debug and configuration
 NKRO_ENABLE = no            # Enable N-Key Rollover
 BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 RGBLIGHT_ENABLE = yes        # Enable keyboard RGB underglow
-AUDIO_ENABLE = no           # Audio output
+AUDIO_ENABLE = yes           # Audio output
+AUDIO_DRIVER = pwm_software
 ENCODER_ENABLE = yes        # Encoder Enabled
-
+KEY_LOCK_ENABLE = yes
+SRC += features/mouse_turbo_click.c
 DEFAULT_FOLDER = mechwild/waka60/f401

@@ -14,3 +14,7 @@ ENCODER_ENABLE = yes
 OLED_ENABLE = yes
 OLED_DRIVER = SSD1306
 WAIT_FOR_USB = yes
+WPM_ENABLE = yes
+
+SRC += ./lib/keylogger.c \
+	   ./lib/bongo_cat.c \
